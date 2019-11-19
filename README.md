@@ -38,9 +38,10 @@ jupyter notebook --no-browser --NotebookApp.iopub_msg_rate_limit=10000000000
 ## Steps to reproduce submission:
 
 1. Start with NBs:
- 1. `0-preprocess-generate_csvs.ipynb`
- 2. `1-preprocess-brain_norm.ipynb`
- 3. `2-preprocess-pickle.ipynb`
+
+  1. `0-preprocess-generate_csvs.ipynb`
+  2. `1-preprocess-brain_norm.ipynb`
+  3. `2-preprocess-pickle.ipynb`
 
 ... to pregenerate dcm metadata + diagnosis pivot tables + various pickles. 
 
