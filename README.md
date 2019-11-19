@@ -39,9 +39,9 @@ jupyter notebook --no-browser --NotebookApp.iopub_msg_rate_limit=10000000000
 
 1. Start with NBs:
 
-  1. `0-preprocess-generate_csvs.ipynb`
-  2. `1-preprocess-brain_norm.ipynb`
-  3. `2-preprocess-pickle.ipynb`
+  * `0-preprocess-generate_csvs.ipynb`
+  * `1-preprocess-brain_norm.ipynb`
+  * `2-preprocess-pickle.ipynb`
 
 ... to pregenerate dcm metadata + diagnosis pivot tables + various pickles. 
 
@@ -50,11 +50,12 @@ For convenience we've already included these in the git repository so, altenativ
 2. Train (level 1) L1 models:
 
 a. fastai v1 library: `3a-L1-train-and-generate-predictions-fastai_v1.ipynb` to train the following architectures:
-* `resnet18`
-* `resnet50`
-* `resnet34`
-* `resnet101`
-* `densenet121`
+
+  * `resnet18`
+  * `resnet50`
+  * `resnet34`
+  * `resnet101`
+  * `densenet121`
 
 For each architecture we need to train 5 models (each model for each of 5 different folds). 
 
@@ -78,15 +79,19 @@ if model_fn is not None:
 ```
   
 b. fastai v2 library to train subdural-focused models: same instructions as a) but use file `3b-L1-train-and-generate-predictions-fastai_v2.ipynb`
-* `resnet18`
-* `resnet34`
-* `resnet101`
-* `resnext50_32x4d`
-* `densenet121`
+
+  * `resnet18`
+  * `resnet34`
+  * `resnet101`
+  * `resnext50_32x4d`
+  * `densenet121`
 
 To train models from scratch and generate test and OOF predictions, you need to:
+
 - Set arch to each of the archs above and train the model for each fold (set `FOLD` variable from 0 to 4 to train each fold. You NEED to train all 5 folds).
+
 - Comment the second `model_fn` instance (this is used if you need to fine-tune an existing model)
+
 - Execute all code except for the final section which builds CSV to send to submit single-model predictions to Kaggle (which we do NOT want to do at this stage).
 
 The code for fastai v1 allocates batch size and finds LR dynamically, but in the fastai v2 version you need to specify your GPU memory in cell #4 as well.
