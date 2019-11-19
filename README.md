@@ -1,3 +1,12 @@
+## Before cloning this repo
+
+Make sure you have git-lfs installed:
+
+```
+sudo apt install git-lfs
+git lfs install
+```
+
 ## Start here
 
 Directory tree:
@@ -20,22 +29,26 @@ conda env create -n ihd -f=env/tfgpu.yml
 conda activate ihd
 ```
 
+Then run `jupyter-notebook` from the repo's root dir:
+
+```
+jupyter notebook --no-browser --NotebookApp.iopub_msg_rate_limit=10000000000
+```
+
 ## Steps to reproduce submission:
 
 1. Start with NBs:
+ 1. `0-preprocess-generate_csvs.ipynb`
+ 2. `1-preprocess-brain_norm.ipynb`
+ 3. `2-preprocess-pickle.ipynb`
 
- 0-preprocess-generate_csvs.ipynb 
- 1-preprocess-brain_norm.ipynb
- 2-preprocess-pickle.ipynb
+... to pregenerate dcm metadata + diagnosis pivot tables + various pickles. 
 
-...to pregenerate dcm metadata + diagnosis pivot tables + various pickles. 
-
-For convenience we've already included these in the git repository.
+For convenience we've already included these in the git repository so, altenatively, you can skip to step 2.
 
 2. Train (level 1) L1 models:
 
 a. fastai v1 library: `3a-L1-train-and-generate-predictions-fastai_v1.ipynb` to train the following architectures:
-
 * `resnet18`
 * `resnet50`
 * `resnet34`
@@ -43,6 +56,7 @@ a. fastai v1 library: `3a-L1-train-and-generate-predictions-fastai_v1.ipynb` to 
 * `densenet121`
 
 For each architecture we need to train 5 models (each model for each of 5 different folds). 
+
 All the variables must be set in cell #4, e.g.
 
 ```
@@ -60,10 +74,9 @@ n_tta = 10
 if model_fn is not None:
     model_fn_fold = int(model_fn[-6])-1
     assert model_fn_fold == fold
-  ```
+```
   
 b. fastai v2 library to train subdural-focused models: same instructions as a) but use file `3b-L1-train-and-generate-predictions-fastai_v2.ipynb`
-
 * `resnet18`
 * `resnet34`
 * `resnet101`
@@ -77,7 +90,7 @@ To train models from scratch and generate test and OOF predictions, you need to:
 
 The code for fastai v1 allocates batch size and finds LR dynamically, but in the fastai v2 version you need to specify your GPU memory in cell #4 as well.
 
-For convenience: since training models takes a long time, we are providing trained models and test and OOF predictions. 
+For convenience: since training models takes a long time, we are providing trained models and test and OOF predictions so, altenatively, you can skip to step 3.
 
 3. Train (level 2) L2 models and generate submission: With all the models (5 models per arch) trained and predictions in `./data/predictions`, run `4-L2-train-and-submit.ipynb` to generate the final predictions/submission.
 
